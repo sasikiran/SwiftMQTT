@@ -44,19 +44,17 @@ class MQTTPublishPacket: MQTTPacket {
         
         var readingData = networkData
         
-        var bytes = UnsafePointer<UInt8>(readingData.bytes)
+        let bytes = UnsafePointer<UInt8>(readingData.bytes)
         let topicLength = 256 * Int(bytes[0]) + Int(bytes[1])
         let topic = NSString(data: readingData.subdataWithRange(NSMakeRange(2, topicLength)), encoding: NSUTF8StringEncoding) as! String
         
-        readingData = readingData.subdataWithRange(NSMakeRange(2+topicLength, readingData.length - topicLength-2))
+        readingData = readingData.subdataWithRange(NSMakeRange(2 + topicLength, readingData.length - topicLength - 2))
         
         let qos = MQTTQoS(rawValue: header.flags & 0x06)!
         
         if qos != .AtMostOnce { //Fixme: lol fix this
-            bytes = UnsafePointer<UInt8>(readingData.bytes)
             self.messageID = 256 * UInt16(bytes[0]) + UInt16(bytes[1])
             readingData = readingData.subdataWithRange(NSMakeRange(2, readingData.length - 2)) //because we read two bytes
-            
         } else {
             self.messageID = 0
         }
