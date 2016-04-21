@@ -36,7 +36,7 @@ public enum MQTTQoS: UInt8 {
     case ExactlyOnce    = 0x02
 }
 
-enum MQTTConnackResponse: UInt8, ErrorType {
+enum MQTTConnAckResponse: UInt8, ErrorType {
     case ConnectionAccepted     = 0x00
     case BadProtocol            = 0x01
     case ClientIDRejected       = 0x02

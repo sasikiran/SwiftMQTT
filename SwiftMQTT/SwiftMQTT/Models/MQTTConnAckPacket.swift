@@ -11,7 +11,7 @@ import Foundation
 class MQTTConnAckPacket: MQTTPacket {
     
     let sessionPresent: Bool
-    let response: MQTTConnackResponse
+    let response: MQTTConnAckResponse
     
     init(header: MQTTPacketFixedHeader, networkData: NSData) {
         //FIXME: fix
@@ -19,7 +19,7 @@ class MQTTConnAckPacket: MQTTPacket {
         networkData.getBytes(&buffer, range: NSMakeRange(0, 2))
         
         self.sessionPresent = (buffer[0] & 0x01) == 0x01
-        self.response = MQTTConnackResponse(rawValue: buffer[1])!
+        self.response = MQTTConnAckResponse(rawValue: buffer[1])!
         
         super.init(header: header)
     }
