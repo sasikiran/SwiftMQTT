@@ -61,7 +61,7 @@ class MQTTPublishPacket: MQTTPacket {
             self.messageID = 0
         }
         
-        let responseData = readingData // reamining data will be payload
+        let responseData = readingData // remaining data will be payload
         
         let retain = (header.flags & 0x01) == 0x01
         

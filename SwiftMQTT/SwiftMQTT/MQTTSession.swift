@@ -65,7 +65,6 @@ public class MQTTSession: MQTTSessionStreamDelegate {
         } else {
             completion?(succeeded: false, error: MQTTSessionError.SocketError)
         }
-        
     }
     
     public func unSubscribe(topic: String, completion: MQTTSessionCompletionBlock?) {
@@ -87,7 +86,7 @@ public class MQTTSession: MQTTSessionStreamDelegate {
         stream.delegate = self
         stream.createStreamConnection()
         
-        keepAliveTimer = NSTimer(timeInterval: Double(self.keepAlive), target: self, selector: Selector("keepAliveTimerFired"), userInfo: nil, repeats: true)
+        keepAliveTimer = NSTimer(timeInterval: Double(self.keepAlive), target: self, selector: #selector(MQTTSession.keepAliveTimerFired), userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(keepAliveTimer, forMode: NSDefaultRunLoopMode)
         
         //Create Connect Packet
@@ -175,7 +174,7 @@ public class MQTTSession: MQTTSessionStreamDelegate {
         struct MessageIDHolder {
             static var messageID = UInt16(0)
         }
-        MessageIDHolder.messageID++
+        MessageIDHolder.messageID += 1
         return MessageIDHolder.messageID;
     }
 
@@ -188,5 +187,4 @@ public class MQTTSession: MQTTSessionStreamDelegate {
     func receivedData(stream: MQTTSessionStream, data: NSData, withMQTTHeader header: MQTTPacketFixedHeader) {
         self.parseReceivedData(data, mqttHeader: header)
     }
-
 }

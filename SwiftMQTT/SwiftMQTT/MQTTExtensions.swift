@@ -28,7 +28,6 @@ enum MQTTPacketType: UInt8 {
     case PingReq        = 0x0C
     case PingResp       = 0x0D
     case Disconnect     = 0x0E
-    
 }
 
 public enum MQTTQoS: UInt8 {
